@@ -5,37 +5,127 @@ namespace Day2
     class Programm
     {
         [STAThread]
+        // Part 1
+        //static void Main(string[] args)
+        //{
+        //    var content = File.ReadAllText("Input.txt");
+
+        //    Dictionary<KeyValuePair<int, int>, int> presents = new Dictionary<KeyValuePair<int, int>, int>();
+
+        //    int x = 0;
+        //    int y = 0;
+
+        //    presents.Add(new KeyValuePair<int, int>(x, y), 1);
+
+        //    foreach (var item in content)
+        //    {
+        //        if (item == '^')
+        //        {
+        //            y++;
+        //        }
+
+        //        if (item == 'v')
+        //        {
+        //            y--;
+        //        }
+
+        //        if (item == '>')
+        //        {
+        //            x++;
+        //        }
+
+        //        if (item == '<')
+        //        {
+        //            x--;
+        //        }
+
+        //        var pos = new KeyValuePair<int, int>(x, y);
+
+        //        if (presents.ContainsKey(pos))
+        //        {
+        //            presents[pos]++;
+        //        }
+        //        else
+        //        {
+        //            presents.Add(new KeyValuePair<int, int>(x, y), 1);
+        //        }
+        //    }
+
+        //    Console.WriteLine(presents.Count);
+        //    Clipboard.SetText(presents.Count.ToString());
+
+        //    Console.ReadKey();
+        //}
+
+        //Part 2
         static void Main(string[] args)
         {
             var content = File.ReadAllText("Input.txt");
 
             Dictionary<KeyValuePair<int, int>, int> presents = new Dictionary<KeyValuePair<int, int>, int>();
 
-            int x = 0;
-            int y = 0;
+            int xSanta = 0;
+            int ySanta = 0;
 
-            presents.Add(new KeyValuePair<int, int>(x, y), 1);
+            int xBot = 0;
+            int yBot = 0;
+
+            int count = 0;
+
+            presents.Add(new KeyValuePair<int, int>(0, 0), 2);
 
             foreach (var item in content)
             {
-                if (item == '^')
+                int x, y;
+                if (count % 2 == 0)
                 {
-                    y++;
-                }
+                    if (item == '^')
+                    {
+                        ySanta++;
+                    }
 
-                if (item == 'v')
-                {
-                    y--;
-                }
+                    if (item == 'v')
+                    {
+                        ySanta--;
+                    }
 
-                if (item == '>')
-                {
-                    x++;
-                }
+                    if (item == '>')
+                    {
+                        xSanta++;
+                    }
 
-                if (item == '<')
+                    if (item == '<')
+                    {
+                        xSanta--;
+                    }
+
+                    x = xSanta;
+                    y = ySanta;
+                }
+                else
                 {
-                    x--;
+                    if (item == '^')
+                    {
+                        yBot++;
+                    }
+
+                    if (item == 'v')
+                    {
+                        yBot--;
+                    }
+
+                    if (item == '>')
+                    {
+                        xBot++;
+                    }
+
+                    if (item == '<')
+                    {
+                        xBot--;
+                    }
+
+                    x = xBot;
+                    y = yBot;
                 }
 
                 var pos = new KeyValuePair<int, int>(x, y);
@@ -48,6 +138,8 @@ namespace Day2
                 {
                     presents.Add(new KeyValuePair<int, int>(x, y), 1);
                 }
+
+                count++;
             }
 
             Console.WriteLine(presents.Count);
