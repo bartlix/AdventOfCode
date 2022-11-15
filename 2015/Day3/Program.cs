@@ -7,11 +7,51 @@ namespace Day2
         [STAThread]
         static void Main(string[] args)
         {
-            var content = File.ReadAllLines("Input.txt");
+            var content = File.ReadAllText("Input.txt");
 
-            
-            Console.WriteLine(ribbon);
-            Clipboard.SetText(ribbon.ToString());
+            Dictionary<KeyValuePair<int, int>, int> presents = new Dictionary<KeyValuePair<int, int>, int>();
+
+            int x = 0;
+            int y = 0;
+
+            presents.Add(new KeyValuePair<int, int>(x, y), 1);
+
+            foreach (var item in content)
+            {
+                if (item == '^')
+                {
+                    y++;
+                }
+
+                if (item == 'v')
+                {
+                    y--;
+                }
+
+                if (item == '>')
+                {
+                    x++;
+                }
+
+                if (item == '<')
+                {
+                    x--;
+                }
+
+                var pos = new KeyValuePair<int, int>(x, y);
+
+                if (presents.ContainsKey(pos))
+                {
+                    presents[pos]++;
+                }
+                else
+                {
+                    presents.Add(new KeyValuePair<int, int>(x, y), 1);
+                }
+            }
+
+            Console.WriteLine(presents.Count);
+            Clipboard.SetText(presents.Count.ToString());
 
             Console.ReadKey();
         }
