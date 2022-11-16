@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace Day2
@@ -9,36 +10,108 @@ namespace Day2
         //Part 1
         static void Main(string[] args)
         {
-            //var content = File.ReadAllLines("Input.txt");
-            var content = new string[] { "123 -> x", "x AND y -> z", "p LSHIFT 2 -> q", "NOT e -> f" };
-            Dictionary<string, ushort> circuits = new ();
+            var content = File.ReadAllLines("Input.txt");
+            //var content = File.ReadAllLines("Sample.txt");
+
+            Dictionary<string, ushort> circuits = new();
 
             foreach (var circuit in content)
             {
-                var parts = circuit.Split ("->");
+                if(circuit == "0 -> c")
+                {
 
+                }
+
+                var parts = circuit.Split("->");
+
+                var left = parts[0].Trim().Split();
                 var target = parts[1].Trim();
-                var action = parts[0].Trim();
 
-                if (!circuits.ContainsKey(target))
+                CheckCircuit(circuits, target);
+
+                if (left.Count() == 1)
                 {
-                    circuits.Add(target, 0);
+                    if (ushort.TryParse(left[0], out var result))
+                    {
+                        circuits[target] = result;
+                    }
+                    else
+                    {
+                        circuits[target] = circuits[left[0].Trim()];
+                    }
                 }
 
-                if (ushort.TryParse(action, out var value) && value > 0) 
+                if (left.Contains("AND") || left.Contains("OR") || left.Contains("LSHIFT")  || left.Contains("RSHIFT"))
                 {
-                    circuits[target] = value;
-                    continue;
+                    var a = left[0].Trim();
+                    var b = left[2].Trim();
+
+                    var isNumA = ushort.TryParse(a, out var numA);
+                    var isNumB = ushort.TryParse(b, out var numB);
+
+                    if (!isNumA)
+                    {
+                        CheckCircuit(circuits, a);
+                    }
+
+                    if (!isNumB)
+                    {
+                        CheckCircuit(circuits, b);
+                    }
+
+                    ushort lL = isNumA ? numA : circuits[a];
+                    ushort rR = isNumB ? numB : circuits[b];
+
+                    if (left.Contains("AND"))
+                    {
+                        circuits[target] = (ushort)(lL & rR);
+                    }
+
+                    if (left.Contains("OR"))
+                    {
+                        circuits[target] = (ushort)(lL | rR);
+                    }
+
+                    if (left.Contains("LSHIFT"))
+                    {
+                        circuits[target] = (ushort)(lL << rR);
+                    }
+
+                    if (left.Contains("RSHIFT"))
+                    {
+                        circuits[target] = (ushort)(lL >> rR);
+                    }
                 }
 
-                var actionParts = action.Split(' ');
-                
+                if (left.Contains("NOT"))
+                {
+                    var a = left[1].Trim();
+
+                    var isNumA = ushort.TryParse(a, out var numA);
+
+                    if (!isNumA)
+                    {
+                        CheckCircuit(circuits, a);
+                    }
+
+                    ushort lL = isNumA ? numA : circuits[a];
+
+                    circuits[target] = (ushort)(~lL & ushort.MaxValue);
+                }
             }
 
-            //Console.WriteLine($"Result: {count}");
-            //Clipboard.SetText(count.ToString());
+            Console.WriteLine($"Result: {circuits["a"]}");
+            Clipboard.SetText(circuits["a"].ToString());
 
             Console.ReadKey();
+        }
+
+        private static void CheckCircuit(Dictionary<string, ushort> circuits, string target)
+        {
+            if (!circuits.ContainsKey(target))
+            {
+                circuits.Add(target, 0);
+            }
         }
     }
 }
