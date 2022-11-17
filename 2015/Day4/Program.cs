@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
-namespace Day2
+namespace Day4
 {
     class Programm
     {

@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Windows;
 
-namespace Day2
+namespace Day7
 {
     class Programm
     {
