@@ -11,11 +11,27 @@ namespace Day10
     class Programm
     {
         [STAThread]
+        //static void Main(string[] args)
+        //{
+        //    var input = "1113222113";
+
+        //    for (var i = 0; i < 40; i++)
+        //    {
+        //        input = input.LookAndSay();
+        //    }
+
+        //    Console.WriteLine($"Result: {input.Length}");
+        //    Clipboard.SetText(input.Length.ToString());
+
+        //    Console.ReadKey();
+        //}
+
+        //Part 2
         static void Main(string[] args)
         {
             var input = "1113222113";
 
-            for (var i = 0; i < 40; i++)
+            for (var i = 0; i < 50; i++)
             {
                 input = input.LookAndSay();
             }
