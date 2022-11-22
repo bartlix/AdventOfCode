@@ -14,8 +14,8 @@ namespace Day13
         //Part 1
         static void Main(string[] args)
         {
-            //var input = File.ReadAllText("Input.txt");
-            var input = File.ReadAllLines("Sample.txt");
+            var input = File.ReadAllLines("Input.txt");
+            //var input = File.ReadAllLines("Sample.txt");
 
             var elements = new Dictionary<(string a, string b), int> ();
 
@@ -52,23 +52,26 @@ namespace Day13
 
                 var sum = 0;
 
-                for (var i = 0; i < x.Length - 1; i++)
+                for (var i = 0; i < x.Length; i++)
                 {
-                    if (elements.ContainsKey((x[i], x[i + 1])))
-                    {
-                        sum += elements[(x[i], x[i + 1])];
-                    }
-                    else if (elements.ContainsKey((x[i + 1], x[i])))
-                    {
-                        sum += elements[(x[i + 1], x[i])];
-                    }
+                    var next = (i + 1) > x.Length -1  ? 0 : i+1;
+
+                    var val = elements[(x[i], x[next])];
+                    //Console.WriteLine($"{x[i]} & {x[next]}:{val}");
+                    sum += val;
+
+                    val = elements[(x[next], x[i])];
+                    //Console.WriteLine($"{x[next]} & {x[i]}:{val}");
+                    sum += val;
                 }
 
                 result[r.Key] = sum;
             }
 
-            //Console.WriteLine(input);
-            //Clipboard.SetText(input);
+            var max = result.Max(x => x.Value);
+
+            Console.WriteLine(max);
+            Clipboard.SetText(max.ToString());
             
             Console.ReadKey();
         }
