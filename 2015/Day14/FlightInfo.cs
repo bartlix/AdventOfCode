@@ -21,6 +21,10 @@ namespace Day14
 
         public int Sleep { get; private set; }
 
+        public int Points { get; set; }
+
+        public int Distance { get; private set; }
+
         public int GetDistance(int duration)
         {
             var track = 0;
@@ -43,6 +47,11 @@ namespace Day14
             }
 
             return track;
+        }
+
+        public void SetDistance(int seconds)
+        {
+            Distance = GetDistance(seconds);
         }
 
         private void Parse(string data)
