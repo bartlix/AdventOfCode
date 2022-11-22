@@ -25,7 +25,7 @@ namespace Day15
                 ingredients.Add(new IngredientsInfo(row));
             }
 
-            var dict = new Dictionary<(int a, int b, int c, int d), int>();
+            var dict = new Dictionary<(int a, int b, int c, int d), (int score, int calories)>();
 
             for (int a = 1; a < 98; a++)
             {
@@ -33,7 +33,7 @@ namespace Day15
                 {
                     for (int c = 1; c < 98; c++)
                     {
-                        dict.Add((a, b, c,100 - a - b - c), 0);
+                        dict.Add((a, b, c,100 - a - b - c), (0,0));
                     }
                 }
             }
@@ -44,17 +44,18 @@ namespace Day15
                 var texture = ingredients[0].Texture * d.Key.a + ingredients[1].Texture * d.Key.b + ingredients[2].Texture * d.Key.c + ingredients[3].Texture * d.Key.d;
                 var flavor = ingredients[0].Flavor * d.Key.a + ingredients[1].Flavor * d.Key.b + ingredients[2].Flavor * d.Key.c + ingredients[3].Flavor * d.Key.d;
                 var durability = ingredients[0].Durability * d.Key.a + ingredients[1].Durability * d.Key.b + ingredients[2].Durability * d.Key.c + ingredients[3].Durability * d.Key.d;
-                
+                var calories = ingredients[0].Calories * d.Key.a + ingredients[1].Calories * d.Key.b + ingredients[2].Calories * d.Key.c + ingredients[3].Calories * d.Key.d;
+
                 capacity = capacity < 0 ? 0 : capacity;
                 texture = texture < 0 ? 0 : texture;
                 flavor = flavor < 0 ? 0 : flavor;
                 durability = durability < 0 ? 0 : durability;
 
-                dict[d.Key] = capacity * texture * flavor * durability;
+                dict[d.Key] = (capacity * texture * flavor * durability,calories);
             }
 
 
-            var re = dict.Max(d => d.Value);
+            var re = dict.Where(x => x.Value.calories == 500).Max(d => d.Value.score);
             //var re = dict[44];
 
             Console.WriteLine(re);
