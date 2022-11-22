@@ -15,8 +15,8 @@ namespace Day15
         //Part 1
         static void Main(string[] args)
         {
-            //var input = File.ReadAllLines("Input.txt");
-            var input = File.ReadAllLines("Sample.txt");
+            var input = File.ReadAllLines("Input.txt");
+            //var input = File.ReadAllLines("Sample.txt");
 
             var ingredients = new List<IngredientsInfo>();
 
@@ -25,18 +25,37 @@ namespace Day15
                 ingredients.Add(new IngredientsInfo(row));
             }
 
-            var dict = new Dictionary<int, int>(Enumerable.Range(0, 100).ToDictionary(x => x, x => 0));
+            var dict = new Dictionary<(int a, int b, int c, int d), int>();
 
+            for (int a = 1; a < 98; a++)
+            {
+                for ( int b = 1; b < 98; b++ )
+                {
+                    for (int c = 1; c < 98; c++)
+                    {
+                        dict.Add((a, b, c,100 - a - b - c), 0);
+                    }
+                }
+            }
 
             foreach (var d in dict)
             {
-                dict[d.Key] = (ingredients[0].Capacity * d.Key + ingredients[1].Capacity * (100-d.Key))*
-                            (ingredients[0].Texture * d.Key + ingredients[1].Texture * (100 - d.Key))*
-                            (ingredients[0].Flavor * d.Key + ingredients[1].Flavor * (100 - d.Key))*
-                            (ingredients[0].Durability * d.Key + ingredients[1].Durability * (100 - d.Key));
+                var capacity = ingredients[0].Capacity * d.Key.a + ingredients[1].Capacity * d.Key.b + ingredients[2].Capacity * d.Key.c + ingredients[3].Capacity * d.Key.d;
+                var texture = ingredients[0].Texture * d.Key.a + ingredients[1].Texture * d.Key.b + ingredients[2].Texture * d.Key.c + ingredients[3].Texture * d.Key.d;
+                var flavor = ingredients[0].Flavor * d.Key.a + ingredients[1].Flavor * d.Key.b + ingredients[2].Flavor * d.Key.c + ingredients[3].Flavor * d.Key.d;
+                var durability = ingredients[0].Durability * d.Key.a + ingredients[1].Durability * d.Key.b + ingredients[2].Durability * d.Key.c + ingredients[3].Durability * d.Key.d;
+                
+                capacity = capacity < 0 ? 0 : capacity;
+                texture = texture < 0 ? 0 : texture;
+                flavor = flavor < 0 ? 0 : flavor;
+                durability = durability < 0 ? 0 : durability;
+
+                dict[d.Key] = capacity * texture * flavor * durability;
             }
 
-            var re = dict[44];
+
+            var re = dict.Max(d => d.Value);
+            //var re = dict[44];
 
             Console.WriteLine(re);
             Clipboard.SetText(re.ToString());
