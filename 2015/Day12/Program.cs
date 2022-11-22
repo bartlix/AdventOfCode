@@ -39,7 +39,12 @@ namespace Day12
 
             var jsonObject = JsonSerializer.Deserialize<JsonNode>(input);
 
-            var result = AnalyzeJsonObject(jsonObject);
+            int result = 0;
+
+            if (jsonObject != null)
+            {
+                result = AnalyzeJsonObject(jsonObject);
+            }
 
             Console.WriteLine(result);
             Clipboard.SetText(result.ToString());
