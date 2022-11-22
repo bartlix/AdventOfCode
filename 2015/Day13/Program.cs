@@ -42,6 +42,17 @@ namespace Day13
 
             persons = persons.Distinct().ToList();
 
+            //Part 2
+            foreach ( var p in persons)
+            {
+                elements.Add(("Thomas", p), 0);
+                elements.Add((p, "Thomas"), 0);
+            }
+            
+            persons.Add("Thomas");
+
+            // Part 2 - Ende
+
             var list = GetAllCombinations(persons);
 
             var result = list.Select(x => new { x, sum = 0 }).ToDictionary(x => x.x, x => x.sum);
