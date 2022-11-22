@@ -11,29 +11,31 @@ namespace Day11
     class Programm
     {
         [STAThread]
-        //Part 1
         static void Main(string[] args)
         {
+            //Part 1
             //var input = "cqjxjnds";
-            var input = "abcdefgh";
 
-            input = GenerateNextPassword(input);
+            //Part 2
+            var input = "cqjxxyzz";
+
+            input = FindNextPassword(input);
 
             Console.WriteLine($"Result: {input}");
-            Clipboard.SetText(input.ToString());
+            Clipboard.SetText(input);
 
             Console.ReadKey();
         }
 
-        private static string GenerateNextPassword(string oldPassword)
+        private static string FindNextPassword(string pwd)
         {
-            StringBuilder sb = new StringBuilder(oldPassword);            
+            StringBuilder sb = new StringBuilder(pwd);
 
             while (true)
             {
-                Console.WriteLine(sb.ToString());
+                //Console.WriteLine(sb.ToString());
 
-                int pos = sb.Length - 1;
+                var pos = sb.Length - 1;
 
                 while (sb[pos] == 'z')
                 {
@@ -43,36 +45,29 @@ namespace Day11
 
                 sb[pos]++;
 
-                if (CheckPassword(sb.ToString()))
+                if (CheckPasswordOK(sb.ToString()))
                 {
                     break;
                 }
             }
 
-
             return sb.ToString();
         }
 
-        private static bool CheckPassword(string pwd)
+        private static bool CheckPasswordOK(string pwd)
         {
-            var chars = new char[] { 'i', 'o', 'l' };
-
-            foreach(var c in pwd)
+            if (pwd.Contains('i') || pwd.Contains('o') || pwd.Contains('l'))
             {
-                if (chars.Contains(c))
-                {
-                    return false;
-                }
+                return false;
             }
 
             var ok = false;
 
             for (int i = 0; i < pwd.Length - 2; i++)
             {
-                if ((pwd[i] + 1 == pwd[i + 1] && pwd[i] + 2 == pwd[i + 2]))
+                if (pwd[i] + 1 == pwd[i + 1] && pwd[i] + 2 == pwd[i + 2])
                 {
                     ok = true;
-                    break;
                 }
             }
 
@@ -81,7 +76,23 @@ namespace Day11
                 return false;
             }
 
-            //check double characters
+            var d = new Dictionary<string, int>();
+
+            for (var i = 0; i < pwd.Length - 1; i += 1)
+            {
+                if (pwd[i] == pwd[i + 1])
+                {
+                    if (!d.ContainsKey($"{pwd[i]}{pwd[i + 1]}"))
+                    {
+                        d.Add($"{pwd[i]}{pwd[i + 1]}", 1);
+                    }
+                }
+            }
+
+            if (d.Count < 2)
+            {
+                return false;
+            }
 
             return true;
         }
