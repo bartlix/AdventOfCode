@@ -8,22 +8,88 @@ namespace Day16
 {
     public class AuntInfo
     {
+        public AuntInfo()
+        {
+        }
+
         public AuntInfo(string data)
         {
             Parse(data);
         }
 
-        public int Id { get; private set; }
-        public int? Children { get; private set; }
-        public int? Cats { get; private set; }
-        public int? Samoyeds { get; private set; }
-        public int? Pomeranians { get; private set; }
-        public int? Akitas { get; private set; }
-        public int? Vizslas { get; private set; }
-        public int? Goldfish { get; private set; }
-        public int? Trees { get; private set; }
-        public int? Cars { get; private set; }
-        public int? Perfumes { get; private set; }
+        public int Id { get; set; }
+        
+        public int? Children { get; set; }
+        
+        public int? Cats { get; set; }
+        
+        public int? Samoyeds { get; set; }
+        
+        public int? Pomeranians { get; set; }
+        
+        public int? Akitas { get; set; }
+        
+        public int? Vizslas { get; set; }
+        
+        public int? Goldfish { get; set; }
+        
+        public int? Trees { get; set; }
+        
+        public int? Cars { get; set; }
+        
+        public int? Perfumes { get; set; }
+
+        public int GetScore(AuntInfo info)
+        {
+            var score = 0;
+
+            if (Children.HasValue && info.Children == Children.Value)
+            {
+                score += 1;
+            }
+
+            if (Cats.HasValue && info.Cats == Cats.Value)
+            {
+                score += 1;
+            }
+
+            if (Samoyeds.HasValue && info.Samoyeds == Samoyeds.Value)
+            {
+                score += 1;
+            }
+
+            if (Pomeranians.HasValue && info.Pomeranians == Pomeranians.Value)
+            {
+                score += 1;
+            }
+
+            if (Goldfish.HasValue && info.Goldfish == Goldfish.Value)
+            {
+                score += 1;
+            }
+
+            if (Vizslas.HasValue && info.Vizslas == Vizslas.Value)
+            {
+                score += 1;
+            }
+
+            if (Trees.HasValue && info.Trees == Trees.Value)
+            {
+                score += 1;
+            }
+
+            if (Cars.HasValue && info.Cars == Cars.Value)
+            {
+                score += 1;
+            }
+
+            if (Perfumes.HasValue && info.Perfumes == Perfumes.Value)
+            {
+                score += 1;
+            }
+
+            return score;
+        }
 
         private void Parse(string data)
         {
