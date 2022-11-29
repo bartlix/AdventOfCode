@@ -18,25 +18,25 @@ namespace Day16
         }
 
         public int Id { get; set; }
-        
+
         public int? Children { get; set; }
-        
+
         public int? Cats { get; set; }
-        
+
         public int? Samoyeds { get; set; }
-        
+
         public int? Pomeranians { get; set; }
-        
+
         public int? Akitas { get; set; }
-        
+
         public int? Vizslas { get; set; }
-        
+
         public int? Goldfish { get; set; }
-        
+
         public int? Trees { get; set; }
-        
+
         public int? Cars { get; set; }
-        
+
         public int? Perfumes { get; set; }
 
         public int GetScore(AuntInfo info)
@@ -48,7 +48,8 @@ namespace Day16
                 score += 1;
             }
 
-            if (Cats.HasValue && info.Cats == Cats.Value)
+            //if (Cats.HasValue && info.Cats == Cats.Value)
+            if (Cats.HasValue && info.Cats < Cats.Value)
             {
                 score += 1;
             }
@@ -58,12 +59,14 @@ namespace Day16
                 score += 1;
             }
 
-            if (Pomeranians.HasValue && info.Pomeranians == Pomeranians.Value)
+            //if (Pomeranians.HasValue && info.Pomeranians == Pomeranians.Value)
+            if (Pomeranians.HasValue && info.Pomeranians > Pomeranians.Value)
             {
                 score += 1;
             }
 
-            if (Goldfish.HasValue && info.Goldfish == Goldfish.Value)
+            //if (Goldfish.HasValue && info.Goldfish == Goldfish.Value)
+            if (Goldfish.HasValue && info.Goldfish > Goldfish.Value)
             {
                 score += 1;
             }
@@ -73,7 +76,8 @@ namespace Day16
                 score += 1;
             }
 
-            if (Trees.HasValue && info.Trees == Trees.Value)
+            //if (Trees.HasValue && info.Trees == Trees.Value)
+            if (Trees.HasValue && info.Trees < Trees.Value)
             {
                 score += 1;
             }
