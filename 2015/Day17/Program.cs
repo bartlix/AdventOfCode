@@ -14,6 +14,36 @@ namespace Day17
     {
         [STAThread]
         //Part 1
+        //static void Main(string[] args)
+        //{
+        //    var input = File.ReadAllLines("Input.txt");
+        //    //var input = File.ReadAllLines("Sample.txt");
+
+        //    var all = GetAllCombinations(input.ToList());
+        //    var count = 0;
+
+        //    foreach (var i in all)
+        //    {
+        //        var parts = i.Split(',');
+
+        //        var sum = parts.Select(x => int.Parse(x)).Sum();
+
+        //        if (sum == 150)
+        //        {
+        //            Console.WriteLine(i);
+        //            count++;
+        //        }
+
+        //    }
+
+        //    Console.WriteLine("--------------------------------------");
+
+        //    Console.WriteLine(count);
+        //    Clipboard.SetText(count.ToString());
+        //    Console.ReadKey();
+        //}
+
+        // Part 2
         static void Main(string[] args)
         {
             var input = File.ReadAllLines("Input.txt");
@@ -22,19 +52,25 @@ namespace Day17
             var all = GetAllCombinations(input.ToList());
             var count = 0;
 
+            var result = new List<(string key , int value)>();
+
             foreach (var i in all)
             {
-                var parts = i;
+                var parts = i.Split(',');
 
-                var sum = i.Split(',').Select(x => int.Parse(x)).Sum();
+                var sum = parts.Select(x => int.Parse(x)).Sum();
 
                 if (sum == 150)
                 {
+                    result.Add((i, parts.Length));
                     Console.WriteLine(i);
-                    count++;
                 }
 
             }
+
+            var min = result.Min(x => x.value);
+
+            count = result.Count(x => x.value == min);
 
             Console.WriteLine("--------------------------------------");
 
