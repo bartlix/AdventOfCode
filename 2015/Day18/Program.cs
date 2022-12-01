@@ -31,6 +31,11 @@ namespace Day17
                 }
             }
 
+            playground[(0, 0)] = true;
+            playground[(0, 99)] = true;
+            playground[(99, 0)] = true;
+            playground[(99, 99)] = true;
+
             DisplyPlayGround(playground);
 
             for (var count = 0; count < 100; count++)
@@ -100,6 +105,11 @@ namespace Day17
                 DisplyPlayGround(nextGround);
 
                 playground = nextGround;
+
+                playground[(0, 0)] = true;
+                playground[(0, 99)] = true;
+                playground[(99, 0)] = true;
+                playground[(99, 99)] = true;
             }
 
             var result = playground.Count(x => x.Value);
