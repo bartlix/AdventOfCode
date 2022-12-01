@@ -13,6 +13,43 @@ namespace Day1
     {
         [STAThread]
         //Part 1
+        //static void Main(string[] args)
+        //{
+        //    var input = File.ReadAllLines("Input.txt");
+        //    //var input = File.ReadAllLines("Sample.txt");
+        //    var count = 0;
+        //    var sum = 0;
+
+        //    var result = new List<int>();
+
+        //    foreach(var line in input)
+        //    {
+        //        if (string.IsNullOrEmpty(line))
+        //        {
+        //            result.Add(sum);
+        //            sum = 0;
+        //        }
+        //        else
+        //        {
+        //            sum += int.Parse(line);
+        //        }
+        //    }
+
+        //    if(sum > 0)
+        //    {
+        //        result.Add(sum);
+        //    }
+
+        //    Console.WriteLine("--------------------------------------");
+
+        //    count = result.Max();
+
+        //    Console.WriteLine(count);
+        //    Clipboard.SetText(count.ToString());
+        //    Console.ReadKey();
+        //}
+
+        // Part 2
         static void Main(string[] args)
         {
             var input = File.ReadAllLines("Input.txt");
@@ -22,7 +59,7 @@ namespace Day1
 
             var result = new List<int>();
 
-            foreach(var line in input)
+            foreach (var line in input)
             {
                 if (string.IsNullOrEmpty(line))
                 {
@@ -35,14 +72,14 @@ namespace Day1
                 }
             }
 
-            if(sum > 0)
+            if (sum > 0)
             {
                 result.Add(sum);
             }
 
             Console.WriteLine("--------------------------------------");
 
-            count = result.Max();
+            count = result.OrderByDescending(x => x).Take(3).Sum();
 
             Console.WriteLine(count);
             Clipboard.SetText(count.ToString());
