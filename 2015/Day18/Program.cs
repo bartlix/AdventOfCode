@@ -7,9 +7,9 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Windows;
-using Day17;
+using Day18;
 
-namespace Day17
+namespace Day18
 {
     class Programm
     {
