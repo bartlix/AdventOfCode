@@ -7,7 +7,7 @@ using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Windows;
 
-namespace Day2
+namespace Day02
 {
     class Programm
     {
