@@ -14,6 +14,41 @@ namespace Day04
     {
         [STAThread]
         //Part 1
+        //static void Main(string[] args)
+        //{
+        //    var input = File.ReadAllLines("Input.txt");
+        //    //var input = File.ReadAllLines("Sample.txt");
+
+        //    var sum = 0;
+
+        //    foreach (var line in input)
+        //    {
+        //        var part = line.Split(',');
+
+        //        var places = part[0].Split("-");
+        //        var a = Enumerable.Range(int.Parse(places[0]), int.Parse(places[1]) - int.Parse(places[0]) + 1).ToArray();
+
+        //        places = part[1].Split("-");
+
+        //        var b = Enumerable.Range(int.Parse(places[0]), int.Parse(places[1]) - int.Parse(places[0]) + 1).ToArray();
+
+
+        //        if(a.All(x => b.Contains(x)) || b.All(x => a.Contains(x)))
+        //        {
+        //            sum++;
+        //        }
+        //    }
+
+        //    Console.WriteLine("--------------------------------------");
+
+        //    var count = sum;
+
+        //    Console.WriteLine(count);
+        //    Clipboard.SetText(count.ToString());
+        //    Console.ReadKey();
+        //}
+
+        // Part 2
         static void Main(string[] args)
         {
             var input = File.ReadAllLines("Input.txt");
@@ -33,7 +68,7 @@ namespace Day04
                 var b = Enumerable.Range(int.Parse(places[0]), int.Parse(places[1]) - int.Parse(places[0]) + 1).ToArray();
 
 
-                if(a.All(x => b.Contains(x)) || b.All(x => a.Contains(x)))
+                if (a.Any(x => b.Contains(x)) || b.Any(x => a.Contains(x)))
                 {
                     sum++;
                 }
