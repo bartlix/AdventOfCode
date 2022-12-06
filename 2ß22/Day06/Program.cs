@@ -11,26 +11,30 @@ namespace Day06
         // Part 1
         static void Main(string[] args)
         {
-            //var input = File.ReadAllText("Input.txt");
-            var input = "nppdvjthqldpwncqszvftbrmjlhg";
+            var input = File.ReadAllText("Input.txt");
+            //var input = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg";
 
-            var sb = new StringBuilder();
-            sb.Append(input.Substring(0, 4));
-            input = input.Substring(4);
-
-            for (var i = 0; i < input.Length; i++)
+            var count = 0;
+            
+            for (var i = 3; i < input.Length; i++)
             {
-                sb.Append(input[i]);
-                if(sb.Length < 4)
+                var search = input.Substring(i - 3, 4);
+                
+                var x = search.GroupBy(x => x).Select(x => new { Key = x.Key, Items = x}).ToList();
+
+                var max = x.Max(x => x.Items.Count());
+
+                if(max == 1)
                 {
-                    continue;
+                    count = i + 1;
+                    break;
                 }
             }
 
             Console.WriteLine("--------------------------------------");
 
-            Console.WriteLine(sb.Length);
-            Clipboard.SetText(sb.Length.ToString());
+            Console.WriteLine(count);
+            Clipboard.SetText(count.ToString());
             Console.ReadKey();
         }
     }
