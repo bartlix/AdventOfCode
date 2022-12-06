@@ -13,6 +13,9 @@ namespace Day18
 {
     class Programm
     {
+        private static List<(string key, string value)> _transParts = new List<(string key, string value)>();
+        private static string _findingResult = "";
+
         [STAThread]
         //Part 1
         //static void Main(string[] args)
@@ -78,13 +81,9 @@ namespace Day18
             //var input = File.ReadAllLines("Input.txt");
             var input = File.ReadAllLines("Sample.txt");
 
-            var transParts = new List<(string key, string value)>();
-            var startParts = new List<(string key, string value)>();
-
             var action = false;
 
             string baseTxt = "e";
-            string findingResult = "";
 
             foreach (var line in input)
             {
@@ -96,77 +95,136 @@ namespace Day18
 
                 if (action)
                 {
-                    findingResult = line;
+                    _findingResult = line;
                     break;
                 }
 
                 var part = line.Split("=>");
 
-                if (part[0].Trim() == "e")
-                {
-                    startParts.Add((part[0].Trim(), part[1].Trim()));
-                }
-                else
-                {
-                    transParts.Add((part[0].Trim(), part[1].Trim()));
-                }
+                _transParts.Add((part[0].Trim(), part[1].Trim()));
             }
 
-            var count = 0;
+            TryNext(baseTxt);
 
-            StringBuilder sb = new StringBuilder();
+            //foreach (var beginn in startParts)
+            //{
+            //    baseTxt = baseTxt.Replace(beginn.key,beginn.value);
+            //    try
+            //    {
+            //        for (var i = 0; i < transParts.Count; i++)
+            //        {
+            //            var part = transParts[i];
 
+            //            var regex = new Regex(Regex.Escape(part.key));
+            //            var matches = regex.Matches(baseTxt);
 
-            foreach (var beginn in startParts)
-            {
-                baseTxt = baseTxt.Replace(beginn.key,beginn.value);
-                try
-                {
-                    for (var i = 0; i < transParts.Count; i++)
-                    {
-                        var part = transParts[i];
+            //            foreach (Match m in matches)
+            //            {
+            //                sb.Append(baseTxt.Substring(0, m.Index));
+            //                sb.Append(part.value);
+            //                sb.Append(baseTxt.Substring(m.Index + m.Length));
 
-                        var regex = new Regex(Regex.Escape(part.key));
-                        var matches = regex.Matches(baseTxt);
+            //                count++;
 
-                        foreach (Match m in matches)
-                        {
-                            sb.Append(baseTxt.Substring(0, m.Index));
-                            sb.Append(part.value);
-                            sb.Append(baseTxt.Substring(m.Index + m.Length));
+            //                if (sb.ToString() == findingResult)
+            //                {
+            //                    break;
+            //                }
+            //                else
+            //                {
+            //                    baseTxt = sb.ToString();
+            //                    sb.Clear();
 
-                            count++;
+            //                    if (baseTxt.Length > findingResult.Length)
+            //                    {
+            //                        throw new NotFiniteNumberException();
+            //                    }                                
+            //                }
 
-                            if (sb.ToString() == findingResult)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                baseTxt = sb.ToString();
-                                sb.Clear();
+            //                sb.Clear();
+            //            }
+            //        }
+            //    }
+            //    catch (Exception)
+            //    {
+            //        count = 1;
+            //        baseTxt = "e";
+            //        continue;
+            //    }
+            //}
 
-                                if (baseTxt.Length > findingResult.Length)
-                                {
-                                    throw new NotFiniteNumberException();
-                                }                                
-                            }
-
-                            sb.Clear();
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    count = 1;
-                    baseTxt = "e";
-                    continue;
-                }
-            }
-
-            Console.WriteLine(count);
-            Clipboard.SetText(count.ToString());
+            Console.WriteLine(_count);
+            Clipboard.SetText(_count.ToString());
             Console.ReadKey();
+        }
+
+        private static int _count = 0;
+
+        private static void TryNext(string baseTxt)
+        {
+            var tryTxt = new List<string>();
+
+            foreach (var p in _transParts)
+            {
+                var regex = new Regex(Regex.Escape(p.key));
+                var matches = regex.Matches(baseTxt);
+                var sb = new StringBuilder();
+
+                foreach (Match m in matches)
+                {
+                    sb.Append(baseTxt.Substring(0, m.Index));
+                    sb.Append(p.value);
+                    sb.Append(baseTxt.Substring(m.Index + m.Length));
+
+                    tryTxt.Add(sb.ToString());
+                    sb.Clear();
+                }
+            }
+
+            if (tryTxt.Contains(_findingResult))
+            {
+                return;
+            }
+            else
+            {
+                if(tryTxt.All(x => x.Length > _findingResult.Length))
+                {
+                    return;
+                }
+
+                foreach(var t in tryTxt)
+                {
+                    TryNext(t);
+                }
+            }
+
+            return;
+
+            //for (var i = 0; i < _transParts.Count; i++)
+            //{
+            //    var part = _transParts[i];
+
+            //    var regex = new Regex(Regex.Escape(part.key));
+            //    var matches = regex.Matches(baseTxt);
+
+            //    foreach (Match m in matches)
+            //    {
+            //        sb.Append(baseTxt.Substring(0, m.Index));
+            //        sb.Append(part.value);
+            //        sb.Append(baseTxt.Substring(m.Index + m.Length));
+
+            //        if (sb.ToString() == _findingResult)
+            //        {
+            //            return sb.ToString();
+            //        }
+            //        else
+            //        {
+            //            return TryNext(sb.ToString());
+            //        }
+            //    }
+            //}
+
+            //return "";
         }
     }
 }
