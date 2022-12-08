@@ -101,7 +101,7 @@ namespace Day08
                     if (left.Any(x => x.Value >= t))
                     {
                         var ssss = left.OrderByDescending(x => x.Key.x).First(x => x.Value >= t);
-                        singleScore.Add(Math.Abs(ssss.Key.x - x));
+                        singleScore.Add(x - ssss.Key.x);
                     }
                     else
                     {
@@ -112,7 +112,7 @@ namespace Day08
                     if (top.Any(x => x.Value >= t))
                     {
                         var ssss = top.OrderByDescending(x => x.Key.y).First(x => x.Value >= t);
-                        singleScore.Add(Math.Abs(ssss.Key.y - y));
+                        singleScore.Add(y - ssss.Key.y);
                     }
                     else
                     {
@@ -122,8 +122,8 @@ namespace Day08
                     var right = trees.Where(p => p.Key.y == y && p.Key.x > x);
                     if (right.Any(x => x.Value >= t))
                     {
-                        var ssss = right.OrderByDescending(x => x.Key.x).First(x => x.Value >= t);
-                        singleScore.Add(Math.Abs(ssss.Key.x - x));
+                        var ssss = right.OrderBy(x => x.Key.x).First(x => x.Value >= t);
+                        singleScore.Add(ssss.Key.x - x);
                     }
                     else
                     {
@@ -133,8 +133,8 @@ namespace Day08
                     var bottom = trees.Where(p => p.Key.y > y && p.Key.x == x);
                     if (bottom.Any(x => x.Value >= t))
                     {
-                        var ssss = bottom.OrderByDescending(x => x.Key.y).First(x => x.Value >= t);
-                        singleScore.Add(Math.Abs(ssss.Key.y - y));
+                        var ssss = bottom.OrderBy(x => x.Key.y).First(x => x.Value >= t);
+                        singleScore.Add(ssss.Key.y - y);
                     }
                     else
                     {
