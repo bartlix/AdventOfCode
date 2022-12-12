@@ -12,7 +12,7 @@ namespace Day11
         {
             //var content = File.ReadAllLines("Input.txt");
             var content = File.ReadAllLines("Sample.txt");
-            long sum = 0;
+            ulong sum = 0;
 
             var monkeys = new List<MonkeyInfo>();
 
@@ -31,7 +31,7 @@ namespace Day11
                     var parts = line.Substring(18).Split(',');
                     foreach (var p in parts)
                     {
-                        currentMonkey.Items.Add(int.Parse(p));
+                        currentMonkey.Items.Add(ulong.Parse(p));
                     }
                 }
                 else if (line.StartsWith("  Operation:"))
@@ -44,7 +44,7 @@ namespace Day11
                 {
                     var parts = line.Substring(8).Split(' ');
 
-                    currentMonkey.Divisor = int.Parse(parts.Last());
+                    currentMonkey.Divisor = ulong.Parse(parts.Last());
                 }
                 else if (line.StartsWith("    If true:"))
                 {
@@ -64,7 +64,13 @@ namespace Day11
 
             monkeys.Add(currentMonkey);
 
-            for (var c = 0; c < 10000; c++)
+            ulong woswasi = 1;
+            foreach (var m in monkeys)
+            {
+                woswasi *= m.Divisor;
+            }
+
+            for (var c = 1; c <= 10000; c++)
             {
                 foreach (var m in monkeys)
                 {
@@ -73,16 +79,16 @@ namespace Day11
                         m.InspectCount++;
                         m.Items.Remove(item);
 
-                        var newWorryLevel = m.GetWorryLevel(item);
+                        var level = m.GetWorryLevel(item);
 
-                        //var newWorryLevel = (level / 3);
+                        level %= woswasi;
 
-                        if (newWorryLevel % m.Divisor == 0)
+                        if (level % m.Divisor == 0)
                         {
                             var nextMonkey = monkeys.FirstOrDefault(x => x.Id == m.TrueId);
                             if (nextMonkey != null)
                             {
-                                nextMonkey.Items.Add(newWorryLevel);
+                                nextMonkey.Items.Add(level);
                             }
                         }
                         else
@@ -90,23 +96,22 @@ namespace Day11
                             var nextMonkey = monkeys.FirstOrDefault(x => x.Id == m.FalseId);
                             if (nextMonkey != null)
                             {
-                                nextMonkey.Items.Add(newWorryLevel);
+                                nextMonkey.Items.Add(level);
                             }
                         }
                     }
                 }
 
-
-                if(c == 20 || c % 1000 == 0)
+                if (c == 1 || c == 20 || c % 1000 == 0)
                 {
                     Console.WriteLine($"== After round {c} ==");
 
                     Display(monkeys);
-                    Console.ReadKey();
+                    //Console.ReadKey();
                 }
             }
 
-            var ordered = monkeys.OrderByDescending(x => x.InspectCount).ToList();
+            var ordered = monkeys.OrderByDescending(x => x.InspectCount).Take(2).ToList();
 
             sum = ordered[0].InspectCount * ordered[1].InspectCount;
 
@@ -118,7 +123,7 @@ namespace Day11
 
         private static void Display(List<MonkeyInfo> monkeys)
         {
-            foreach(var m in monkeys)
+            foreach (var m in monkeys)
             {
                 Console.WriteLine($"Monkey {m.Id} inspected items {m.InspectCount} times");
             }
