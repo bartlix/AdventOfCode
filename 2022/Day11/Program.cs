@@ -10,9 +10,9 @@ namespace Day11
         // Part 1
         static void Main(string[] args)
         {
-            var content = File.ReadAllLines("Input.txt");
-            //var content = File.ReadAllLines("Sample.txt");
-            var sum = 0;
+            //var content = File.ReadAllLines("Input.txt");
+            var content = File.ReadAllLines("Sample.txt");
+            long sum = 0;
 
             var monkeys = new List<MonkeyInfo>();
 
@@ -64,7 +64,7 @@ namespace Day11
 
             monkeys.Add(currentMonkey);
 
-            for (var c = 0; c < 20; c++)
+            for (var c = 0; c < 10000; c++)
             {
                 foreach (var m in monkeys)
                 {
@@ -73,9 +73,9 @@ namespace Day11
                         m.InspectCount++;
                         m.Items.Remove(item);
 
-                        var level = m.GetWorryLevel(item);
+                        var newWorryLevel = m.GetWorryLevel(item);
 
-                        var newWorryLevel = (level / 3);
+                        //var newWorryLevel = (level / 3);
 
                         if (newWorryLevel % m.Divisor == 0)
                         {
@@ -95,6 +95,15 @@ namespace Day11
                         }
                     }
                 }
+
+
+                if(c == 20 || c % 1000 == 0)
+                {
+                    Console.WriteLine($"== After round {c} ==");
+
+                    Display(monkeys);
+                    Console.ReadKey();
+                }
             }
 
             var ordered = monkeys.OrderByDescending(x => x.InspectCount).ToList();
@@ -111,7 +120,7 @@ namespace Day11
         {
             foreach(var m in monkeys)
             {
-                Console.WriteLine($"Monkey {m.Id}: {string.Join(',', m.Items)}");
+                Console.WriteLine($"Monkey {m.Id} inspected items {m.InspectCount} times");
             }
         }
     }
