@@ -10,8 +10,8 @@ namespace Day11
         // Part 1
         static void Main(string[] args)
         {
-            //var content = File.ReadAllLines("Input.txt");
-            var content = File.ReadAllLines("Sample.txt");
+            var content = File.ReadAllLines("Input.txt");
+            //var content = File.ReadAllLines("Sample.txt");
             ulong sum = 0;
 
             var monkeys = new List<MonkeyInfo>();
